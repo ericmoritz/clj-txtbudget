@@ -1,0 +1,61 @@
+# Recurrence follows the following pattern:
+# (\d*)([ymwd])(\d*)
+# The first group is the interval
+# The second group is the frequency: y=yearly,m=monthly,w=weekly,d=daily
+# The third group is the count since the start
+
+
+# Here is a sample budget:
+
+# Name,           Amount,      Start, Recurrence
+Paycheck,        1276.50, 03/26/2010,    2w
+Savings,         -100.00, 04/01/2010,    m
+Allowence,       -100.00, 04/01/2010,    m
+Groceries,       -200.00, 04/01/2010,    m
+Gas,              -40.00, 04/01/2010,    m
+Holiday,          -30.00, 04/01/2010,    m
+Car Maintenance,  -50.00, 04/01/2010,    m
+ATT,              -50.00, 04/04/2010,    m
+Comcast,          -40.00, 04/06/2010,    m
+Slicehost,        -25.00, 04/20/2010,    m
+CarMax,          -200.00, 04/22/2010,    m
+KUB,             -245.62, 04/23/2010,    m
+Geico,           -125.33, 04/25/2010,    m
+Chase,           -488.42, 04/25/2010,    m
+YMCA,             -63.00, 04/29/2010,    m
+Mortgage,        -795.67, 04/30/2010,    m
+
+
+###
+# Tutorial
+###
+
+# Run the following:
+# python budget.py schedule.sample.txt list 4
+# returns a balance of $0, this is good, everthing is right in the world.
+
+
+# Let's say you're surprised in May by car maintenance
+# You would put in the value with no recurrences.
+# Uncomment the following line:
+# Car Maintenance, -291.60, 5/01/2010, # I hate cars.
+
+# Then run this:
+# python budget.py schedule.sample.txt list 5/1 5/31
+# as expected, we're under by -291.60.
+# We need to find money from somewhere, we'll take it from savings
+# Uncomment the following line:
+# Savings, 291.60, 5/01/2010, # This is for the car maintenance
+
+# Let's see if everything is fixed, run the following:
+# python budget.py schedule.sample.txt list 5/1:5/31
+# yep, this returns a balance of $0.00, all is good.
+
+# Now we can do some predictions, if we run:
+# python budget.py schedule.sample.txt list 12/31
+# We'll find out that we have some extra money at the end of the year
+# If you do the following we can see 
+
+# Hey we have an extra paycheck in July
+#Savings, -1276.50, 7/31/2010, # Extra paycheck!
+#Savings, -1276.50, 12/31/2010, # Extra paycheck!
