@@ -3,32 +3,35 @@
     (:require [clojure.java [io :as io]]))
 
 
-(defn strip-comment
+(defn strip-comment [line]
     "Remove comments from a line"
-    [line]
-    (string/replace line #"#.+$" ""))
+    (string/replace line #"^#.+$" ""))
 
 
-(defn trim-seq
+(defn trim-seq [s]
       "trim each item in a sequence"
-      [s]
       (map string/trim s))
 
 
-(defn line->chunks
+(defn str->decimal [s]
+      "Convert a string into a BigDecimal"
+      (BigDecimal. s))
+
+
+(defn line->chunks [line]
       "Transfrom a line into processed chunks"
-      [line]
       (-> line
-          strip-comment        ; Remove comments from the line
-          (string/split #",")  ; Turn the line into chunks
-          trim-seq))           ; Trim the chunk items
+          strip-comment                   ; Strip comments from the line
+          (string/split #",")             ; Turn the line into chunks
+          trim-seq                        ; Trim the chunk items
+      )
+)
 
 
 (defn chunks->map [chunk]
-      (let [[name amount-str start-dt recur] chunk  ; deconstruct the chunk
-            amount (BigDecimal. amount-str)]        ; cast amount to BigDecimal
+      (let [[name amount start-dt recur] chunk]  ; deconstruct the chunk
             {:name name,                            ; map values
-             :amount amount,
+             :amount (str->decimal amount),
              :start-dt start-dt,
              :recur recur}))
 
