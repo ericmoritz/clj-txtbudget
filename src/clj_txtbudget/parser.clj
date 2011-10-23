@@ -5,7 +5,7 @@
 
 (defn strip-comment [line]
     "Remove comments from a line"
-    (string/replace line #"^#.+$" ""))
+    (string/replace line #"#.+$" ""))
 
 
 (defn trim-seq [s]
@@ -24,8 +24,7 @@
           strip-comment                   ; Strip comments from the line
           (string/split #",")             ; Turn the line into chunks
           trim-seq                        ; Trim the chunk items
-      )
-)
+      ))
 
 
 (defn chunks->map [chunk]
