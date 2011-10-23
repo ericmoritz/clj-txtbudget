@@ -16,16 +16,16 @@
               (is (= expected (line->map "Test, -100.00, 10-01-2010, m #this is a comment"))))))
 
 
-(deftest test-line-seq->map
+(deftest test-line-seq->map-seq
    (let [expected [{:name "Test", :amount -100.00, :start-dt "10-01-2010", :recur "m"}]]
      (testing "Without comment"
-       (is (= expected (line-seq->map ["Test, -100.00, 10-01-2010, m"]))))
+       (is (= expected (line-seq->map-seq ["Test, -100.00, 10-01-2010, m"]))))
      (testing "With Comment"
-       (is (= expected (line-seq->map ["Test, -100.00, 10-01-2010, m #Comment"]))))
+       (is (= expected (line-seq->map-seq ["Test, -100.00, 10-01-2010, m #Comment"]))))
      (testing "Blank line"
-       (is (= [] (line-seq->map ["     "]))))
+       (is (= [] (line-seq->map-seq ["     "]))))
      (testing "Commented Line"
-       (is (= [] (line-seq->map ["# This is a comment"]))))
+       (is (= [] (line-seq->map-seq ["# This is a comment"]))))
      (testing "Commented Line w/ Leading space"
-       (is (= [] (line-seq->map ["  # This is a comment"]))))
+       (is (= [] (line-seq->map-seq ["  # This is a comment"]))))
 ))

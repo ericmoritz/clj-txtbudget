@@ -42,7 +42,7 @@
          line->chunks
          chunks->map))
 
-(defn line-seq->map [lines]
+(defn line-seq->map-seq [lines]
       (->> lines
            (map string/trim)           ; Trim the lines
            (remove #(= (get % 0) \#))  ; Remove any lines starting with #
@@ -52,6 +52,6 @@
 
 (defn parse-file [filename]
       (-> filename
-          (io/make-reader {})
-          line-seq
-          line-seq->map))
+          (io/make-reader {})  ; Make a reader from the filename
+          line-seq             ; Make a line-seq from the reader
+          line-seq->map-seq))  ; Turn the line-seq into a map-seq
