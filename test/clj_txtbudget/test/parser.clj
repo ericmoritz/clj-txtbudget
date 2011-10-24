@@ -20,6 +20,8 @@
    (let [expected [{:name "Test", :amount -100.00, :start-dt "10-01-2010", :recur "m"}]]
      (testing "Without comment"
        (is (= expected (line-seq->map-seq ["Test, -100.00, 10-01-2010, m"]))))
+     (testing "Without comment & leading/trailing space"
+       (is (= expected (line-seq->map-seq ["  Test, -100.00, 10-01-2010, m  "]))))
      (testing "With Comment"
        (is (= expected (line-seq->map-seq ["Test, -100.00, 10-01-2010, m #Comment"]))))
      (testing "Blank line"

@@ -42,16 +42,25 @@
          line->chunks
          chunks->map))
 
+
+(defn keep-line?
+  "true if the line is blank or starts with a #"
+  [line]
+  (not (or
+        (= (get line 0) \#)            ; Line starts with a #
+        (string/blank? line))))        ; or line is blank
+
+
 (defn line-seq->map-seq [lines]
-      (->> lines
-           (map string/trim)           ; Trim the lines
-           (remove #(= (get % 0) \#))  ; Remove any lines starting with #
-           (remove string/blank?)      ; Remove any blank lines
-           (map line->map)))           ; Map each line to a map
+  (for [line lines                          ; for each line
+        :let [line (string/trim line)]      ; trim the line
+        :when (keep-line? line)]            ; when not a comment or blank
+                                            ;
+    (line->map line)))                      ; transform the line to a map
 
 
 (defn parse-file [filename]
-      (-> filename
-          (io/make-reader {})  ; Make a reader from the filename
-          line-seq             ; Make a line-seq from the reader
-          line-seq->map-seq))  ; Turn the line-seq into a map-seq
+  (-> filename
+      (io/make-reader {})  ; Make a reader from the filename
+      line-seq             ; Make a line-seq from the reader
+      line-seq->map-seq))  ; Turn the line-seq into a map-seq
